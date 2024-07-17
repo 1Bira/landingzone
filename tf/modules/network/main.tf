@@ -102,3 +102,41 @@ resource "azurerm_subnet" "snet-firewall" {
 }
 
 
+
+### Peerings
+
+
+resource "azurerm_virtual_network_peering" "per-hub-2-dev" {
+  name = "per-hub-2-dev"
+  resource_group_name = var.resource_group
+  virtual_network_name = azurerm_virtual_network.vnet_hub
+  remote_virtual_network_id = azurerm_virtual_network.vnet_dev
+  allow_forwarded_traffic = true  
+}
+
+
+resource "azurerm_virtual_network_peering" "per-dev-2-hub" {
+  name = "per-dev-2-hub"
+  resource_group_name = var.resource_group
+  virtual_network_name = azurerm_virtual_network.vnet_dev
+  remote_virtual_network_id = azurerm_virtual_network.vnet_hub
+  allow_forwarded_traffic = true  
+}
+
+
+resource "azurerm_virtual_network_peering" "per-hub-2-prod" {
+  name = "per-hub-2-prod"
+  resource_group_name = var.resource_group
+  virtual_network_name = azurerm_virtual_network.vnet_hub
+  remote_virtual_network_id = azurerm_virtual_network.vnet_prod
+  allow_forwarded_traffic = true
+}
+
+
+resource "azurerm_virtual_network_peering" "per-prod-2-hub" {
+  name = "per-prod-2-hub"
+  resource_group_name = var.resource_group
+  virtual_network_name = azurerm_virtual_network.vnet_prod
+  remote_virtual_network_id = azurerm_virtual_network.vnet_hub
+  allow_forwarded_traffic = true
+}
